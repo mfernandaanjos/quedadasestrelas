@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queda das Estrelas</title>
+</head>
+<style>
+    body{
+        background-image: url(img/fundo.jpeg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    img{
+        position: absolute;
+        width: 75px;
+    }
+    button{
+        width: 100px;
+        background-color: white;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        border: none;
+        position: absolute;
+        top: 90%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+</style>
+<body>
+    <div id="estrela">
+
+    </div>
+    <button id="novo">+ESTRELA</button>
+
+    <script>
+        const ALTURA_ESTRELA = 75;
+        class Estrela {
+            constructor() {
+                this.x = 0;
+                this.y = -ALTURA_ESTRELA;
+                this.baseX = Math.random() * window.innerWidth;
+                this.velocidadeY = Math.random() * 4;
+                this.el = document.createElement('img');
+                this.el.src = 'img/estrela.gif';
+                this.el.alt = 'Estrela';
+                document.querySelector('#estrela').appendChild(this.el);
+            }
+
+            movimento() {
+                this.y += this.velocidadeY;
+                //this.y = this.baseY + Math.cos(this.x / 300) * 10;
+
+                if (this.y >= window.innerHeight) {
+                    this.y = -ALTURA_ESTRELA;
+                    this.baseX = Math.random() * window.innerWidth;
+                }
+
+                this.el.style.transform = `translate(${this.baseX}px, ${this.y}px)`;
+            }
+        }
+
+        let estrela = [new Estrela(), new Estrela()];
+
+        setInterval(() => {
+            for (let i = 0; i < estrela.length; i++) {
+                estrela[i].movimento();
+            }
+        }, 33);
+
+        let novoEl = document.querySelector('#novo');
+        novoEl.addEventListener('click', () => {
+            estrela.push(new Estrela());
+        });
+
+    </script>
+</body>
+
+</html>
